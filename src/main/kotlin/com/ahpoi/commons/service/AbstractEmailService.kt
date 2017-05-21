@@ -3,7 +3,8 @@ package com.ahpoi.commons.service
 import com.ahpoi.commons.model.Email
 import java.io.UnsupportedEncodingException
 import javax.activation.DataHandler
-import javax.mail.*
+import javax.mail.MessagingException
+import javax.mail.Session
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage

@@ -1,10 +1,7 @@
 package com.ahpoi.commons.model
 
-import java.util.*
+import java.util.Properties
 
-/**
- * Created by ahpoi on 20/5/17.
- */
 data class SMTPConfiguration(val senderEmail: String,
                              val senderName: String,
                              val host: String,
@@ -19,12 +16,25 @@ data class SMTPConfiguration(val senderEmail: String,
         this.put("mail.smtp.port", port)
         this.put("mail.smtp.auth", "true")
         when {
+            useSSL && userTLS -> throw RuntimeException("Both SSL and TLS cannot be enabled")
             userTLS -> this.put("mail.smtp.starttls.enable", "true")
             useSSL -> {
                 this.put("mail.smtp.socketFactory.port", host)
                 this.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
             }
         }
+    }
+
+    override fun toString(): String {
+        return "SMTPConfiguration(" +
+                "senderEmail='$senderEmail', " +
+                "senderName='$senderName', " +
+                "host='$host', " +
+                "port='$port', " +
+                "userName='$userName', " +
+                "password='********', " +
+                "useSSL=$useSSL, " +
+                "userTLS=$userTLS)"
     }
 
 }
