@@ -9,15 +9,15 @@ data class SMTPConfiguration(val senderEmail: String,
                              val userName: String,
                              val password: String,
                              val useSSL: Boolean = false,
-                             val userTLS: Boolean = false) {
+                             val useTLS: Boolean = false) {
 
     fun getProperties() = Properties().apply {
         this.put("mail.smtp.host", host)
         this.put("mail.smtp.port", port)
         this.put("mail.smtp.auth", "true")
         when {
-            useSSL && userTLS -> throw RuntimeException("Both SSL and TLS cannot be enabled")
-            userTLS -> this.put("mail.smtp.starttls.enable", "true")
+            useSSL && useTLS -> throw RuntimeException("Both SSL and TLS cannot be enabled")
+            useTLS -> this.put("mail.smtp.starttls.enable", "true")
             useSSL -> {
                 this.put("mail.smtp.socketFactory.port", host)
                 this.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
@@ -34,7 +34,7 @@ data class SMTPConfiguration(val senderEmail: String,
                 "userName='$userName', " +
                 "password='********', " +
                 "useSSL=$useSSL, " +
-                "userTLS=$userTLS)"
+                "useTLS=$useTLS)"
     }
 
 }

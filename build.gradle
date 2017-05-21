@@ -19,6 +19,8 @@ repositories {
 }
 
 test {
+    systemProperty("recipient.email", System.getProperty("recipient.email"))
+    systemProperty("ses.sender.email", System.getProperty("ses.sender.email"))
     systemProperty("smtp.sender.email", System.getProperty("smtp.sender.email"))
     systemProperty("smtp.sender.username", System.getProperty("smtp.sender.username"))
     systemProperty("smtp.sender.password", System.getProperty("smtp.sender.password"))

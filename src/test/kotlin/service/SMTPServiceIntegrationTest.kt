@@ -1,27 +1,28 @@
-import com.ahpoi.commons.model.Attachment
-import com.ahpoi.commons.model.Email
+package service
+
 import com.ahpoi.commons.model.SMTPConfiguration
-import org.junit.Before
+import com.ahpoi.commons.service.SMTPService
+import fixture.FixtureBuilder.defaultEmail
+import fixture.FixtureBuilder.defaultEmailWithAttachment
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Ignore
 import org.junit.Test
-import com.ahpoi.commons.service.SMTPService
-import org.apache.commons.io.IOUtils
-import org.assertj.core.api.Assertions.assertThat
 
 @Ignore
-class SMTPServiceTest {
+class SMTPServiceIntegrationTest {
 
-    private lateinit var smtpConfigWithSSL: SMTPConfiguration
+    private lateinit var smtpConfigWithSSL: com.ahpoi.commons.model.SMTPConfiguration
 
-    private lateinit var smtpConfigWithTLS: SMTPConfiguration
+    private lateinit var smtpConfigWithTLS: com.ahpoi.commons.model.SMTPConfiguration
 
-    @Before
+    @Test
     fun setUp() {
         val senderEmail = System.getProperties().getProperty("smtp.sender.email")
+        val senderName = "Integration Test"
         val senderUsername = System.getProperties().getProperty("smtp.sender.username")
         val senderPassword = System.getProperties().getProperty("smtp.sender.password")
         smtpConfigWithSSL = SMTPConfiguration(senderEmail = senderEmail,
-                senderName = "Integration Test",
+                senderName = senderName,
                 host = "smtp.gmail.com",
                 port = "465",
                 userName = senderUsername,
@@ -29,12 +30,12 @@ class SMTPServiceTest {
                 useSSL = true)
 
         smtpConfigWithTLS = SMTPConfiguration(senderEmail = senderEmail,
-                senderName = "Integration Test",
+                senderName = senderName,
                 host = "smtp.gmail.com",
                 port = "587",
                 userName = senderUsername,
                 password = senderPassword,
-                userTLS = true)
+                useTLS = true)
     }
 
     @Test
@@ -60,17 +61,4 @@ class SMTPServiceTest {
         val sent = SMTPService(smtpConfigWithTLS).send(defaultEmailWithAttachment())
         assertThat(sent).isEqualTo(true)
     }
-
-    fun defaultEmail() = Email(
-            recipient = "integrationtest@mailinator.com",
-            subject = "Integration Test Subject",
-            content = "Integration Test Body")
-
-    fun defaultEmailWithAttachment(): Email {
-        val data = IOUtils.toByteArray(this.javaClass.classLoader.getResourceAsStream("dummy-attachment.txt"))
-        val attachment = Attachment(fileName = "dummy-attachment.txt", data = data, mimeType = "application/plain")
-        val email = defaultEmail().copy(attachments = arrayListOf(attachment))
-        return email
-    }
-
 }
