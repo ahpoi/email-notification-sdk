@@ -1,29 +1,40 @@
 package com.ahpoi.commons.service.email
 
-class SESService(val config: com.ahpoi.commons.service.email.model.SESConfiguration) : AbstractEmailService(), EmailService {
+import com.ahpoi.commons.service.email.model.Email
+import com.ahpoi.commons.service.email.model.SESConfiguration
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder
+import com.amazonaws.services.simpleemail.model.RawMessage
+import com.amazonaws.services.simpleemail.model.SendRawEmailRequest
+import org.slf4j.LoggerFactory
+import java.nio.ByteBuffer
+import javax.mail.Session
 
-    private val LOGGER = org.slf4j.LoggerFactory.getLogger(com.ahpoi.commons.service.email.SESService::class.java)
+class SESService(val config: SESConfiguration) : AbstractEmailService(), EmailService {
 
-    private val client = com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder
+    private val LOGGER = LoggerFactory.getLogger(SESService::class.java)
+
+    private val client = AmazonSimpleEmailServiceClientBuilder
             .standard()
-            .withCredentials(com.amazonaws.auth.DefaultAWSCredentialsProviderChain())
-            .withRegion(com.amazonaws.regions.Regions.US_EAST_1).build()
+            .withCredentials(DefaultAWSCredentialsProviderChain())
+            .withRegion(Regions.US_EAST_1).build()
 
     init {
         LOGGER.info("Configuration for SES: {}", config)
     }
 
-    override fun send(email: com.ahpoi.commons.service.email.model.Email): Boolean {
+    override fun send(email: Email): Boolean {
         try {
             java.io.ByteArrayOutputStream().use { outputStream ->
                 val message = buildMessage(
-                        session = javax.mail.Session.getDefaultInstance(java.util.Properties()),
+                        session = Session.getDefaultInstance(java.util.Properties()),
                         senderEmail = config.senderEmail,
                         senderName = config.senderName,
                         email = email)
                 message.writeTo(outputStream)
-                val rawMessage = com.amazonaws.services.simpleemail.model.RawMessage(java.nio.ByteBuffer.wrap(outputStream.toByteArray()))
-                val rawEmailRequest = com.amazonaws.services.simpleemail.model.SendRawEmailRequest(rawMessage)
+                val rawMessage = RawMessage(ByteBuffer.wrap(outputStream.toByteArray()))
+                val rawEmailRequest = SendRawEmailRequest(rawMessage)
                 client.sendRawEmail(rawEmailRequest)
             }
         } catch (e: Exception) {
