@@ -1,5 +1,5 @@
-group 'com.ahpoi.commons'
-version '1.0.0-SNAPSHOT'
+group group
+version version
 
 buildscript {
     repositories {
@@ -31,6 +31,7 @@ dependencies {
     compile("org.slf4j:slf4j-simple:${dependencyVersionSl4jSimple}")
 
     testCompile("junit:junit:${dependencyVersionJunit}")
-    testCompile('org.assertj:assertj-core:3.7.0')
+    testCompile("org.assertj:assertj-core:${dependencyVersionAssertJ}")
     testCompile("org.mockito:mockito-core:${dependencyVersionMockitoCore}")
+    testCompile("org.apache.commons:commons-io:${dependencyVersionApacheCommonsIo}")
 }
