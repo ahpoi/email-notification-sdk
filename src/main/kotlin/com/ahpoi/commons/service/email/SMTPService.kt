@@ -1,7 +1,7 @@
-package com.ahpoi.commons.service
+package com.ahpoi.commons.service.email
 
-import com.ahpoi.commons.model.Email
-import com.ahpoi.commons.model.SMTPConfiguration
+import com.ahpoi.commons.service.email.model.Email
+import com.ahpoi.commons.service.email.model.SMTPConfiguration
 import org.slf4j.LoggerFactory
 import javax.mail.Authenticator
 import javax.mail.PasswordAuthentication

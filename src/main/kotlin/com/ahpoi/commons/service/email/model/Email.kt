@@ -1,4 +1,4 @@
-package com.ahpoi.commons.model
+package com.ahpoi.commons.service.email.model
 
 import kotlin.collections.ArrayList
 

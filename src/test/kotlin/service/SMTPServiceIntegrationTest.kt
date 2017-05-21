@@ -1,7 +1,7 @@
 package service
 
-import com.ahpoi.commons.model.SMTPConfiguration
-import com.ahpoi.commons.service.SMTPService
+import com.ahpoi.commons.service.email.model.SMTPConfiguration
+import com.ahpoi.commons.service.email.SMTPService
 import fixture.FixtureBuilder.defaultEmail
 import fixture.FixtureBuilder.defaultEmailWithAttachment
 import org.assertj.core.api.Assertions.assertThat
@@ -11,9 +11,9 @@ import org.junit.Test
 @Ignore
 class SMTPServiceIntegrationTest {
 
-    private lateinit var smtpConfigWithSSL: com.ahpoi.commons.model.SMTPConfiguration
+    private lateinit var smtpConfigWithSSL: SMTPConfiguration
 
-    private lateinit var smtpConfigWithTLS: com.ahpoi.commons.model.SMTPConfiguration
+    private lateinit var smtpConfigWithTLS: SMTPConfiguration
 
     @Test
     fun setUp() {

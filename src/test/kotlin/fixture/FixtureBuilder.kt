@@ -1,6 +1,7 @@
 package fixture
 
-import com.ahpoi.commons.model.Email
+import com.ahpoi.commons.service.email.model.Attachment
+import com.ahpoi.commons.service.email.model.Email
 import org.apache.commons.io.IOUtils
 
 object FixtureBuilder {
@@ -12,7 +13,7 @@ object FixtureBuilder {
 
     fun defaultEmailWithAttachment(): Email {
         val data = IOUtils.toByteArray(this.javaClass.classLoader.getResourceAsStream("dummy-attachment.txt"))
-        val attachment = com.ahpoi.commons.model.Attachment(fileName = "dummy-attachment.txt", data = data, mimeType = "application/plain")
+        val attachment = Attachment(fileName = "dummy-attachment.txt", data = data, mimeType = "application/plain")
         val email = defaultEmail().copy(attachments = arrayListOf(attachment))
         return email
     }

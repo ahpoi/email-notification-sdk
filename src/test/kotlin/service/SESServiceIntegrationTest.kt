@@ -1,7 +1,7 @@
 package service
 
-import com.ahpoi.commons.model.SESConfiguration
-import com.ahpoi.commons.service.SESService
+import com.ahpoi.commons.service.email.model.SESConfiguration
+import com.ahpoi.commons.service.email.SESService
 import fixture.FixtureBuilder
 import org.assertj.core.api.Assertions
 import org.junit.Before
