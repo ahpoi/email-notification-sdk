@@ -1,7 +1,9 @@
 package com.ahpoi.commons.service.email
 
+import com.ahpoi.commons.service.email.model.Email
+
 interface EmailService {
 
-    fun send(email: com.ahpoi.commons.service.email.model.Email): Boolean
+    fun send(email: Email): Boolean
 
 }

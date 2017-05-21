@@ -2,13 +2,14 @@ package com.ahpoi.commons.service.email
 
 import com.ahpoi.commons.service.email.model.Email
 import com.ahpoi.commons.service.email.model.SMTPConfiguration
+import com.ahpoi.commons.service.email.util.buildMessage
 import org.slf4j.LoggerFactory
 import javax.mail.Authenticator
 import javax.mail.PasswordAuthentication
 import javax.mail.Session
 import javax.mail.Transport
 
-class SMTPService(val config: SMTPConfiguration) : AbstractEmailService(), EmailService {
+class SMTPService(val config: SMTPConfiguration) :  EmailService {
 
     private val LOGGER = LoggerFactory.getLogger(SMTPService::class.java)
 

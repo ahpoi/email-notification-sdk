@@ -2,16 +2,19 @@ package com.ahpoi.commons.service.email
 
 import com.ahpoi.commons.service.email.model.Email
 import com.ahpoi.commons.service.email.model.SESConfiguration
+import com.ahpoi.commons.service.email.util.buildMessage
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder
 import com.amazonaws.services.simpleemail.model.RawMessage
 import com.amazonaws.services.simpleemail.model.SendRawEmailRequest
 import org.slf4j.LoggerFactory
+import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
+import java.util.Properties
 import javax.mail.Session
 
-class SESService(val config: SESConfiguration) : AbstractEmailService(), EmailService {
+class SESService(val config: SESConfiguration) : EmailService {
 
     private val LOGGER = LoggerFactory.getLogger(SESService::class.java)
 
@@ -26,9 +29,9 @@ class SESService(val config: SESConfiguration) : AbstractEmailService(), EmailSe
 
     override fun send(email: Email): Boolean {
         try {
-            java.io.ByteArrayOutputStream().use { outputStream ->
+            ByteArrayOutputStream().use { outputStream ->
                 val message = buildMessage(
-                        session = Session.getDefaultInstance(java.util.Properties()),
+                        session = Session.getDefaultInstance(Properties()),
                         senderEmail = config.senderEmail,
                         senderName = config.senderName,
                         email = email)
