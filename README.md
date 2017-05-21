@@ -1,8 +1,22 @@
 # Email-Notification-SDK
 
-Email SDK that is used to send email using SMTP or Amazon SES.
-
 The purpose of this library is to hides the internal of configuring SMTP or SES to send emails.
+
+This sdk is published by JitPack, to include: 
+
+```
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
+	dependencies {
+    	        compile 'com.github.ianahpo1095:email-notification-sdk:{{version}}'
+    	}
+
+```
 
 To run tests you need to have a Gmail SMTP Server account and have those system properties set: 
 
