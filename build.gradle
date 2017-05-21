@@ -2,13 +2,11 @@ group 'com.ahpoi.commons'
 version '1.0.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.2'
-
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${dependencyVersionKotlin}")
     }
 }
 
@@ -20,12 +18,19 @@ repositories {
     mavenCentral()
 }
 
+test {
+    systemProperty("smtp.sender.email", System.getProperty("smtp.sender.email"))
+    systemProperty("smtp.sender.username", System.getProperty("smtp.sender.username"))
+    systemProperty("smtp.sender.password", System.getProperty("smtp.sender.password"))
+}
+
 dependencies {
     compile("com.amazonaws:aws-java-sdk-ses:${dependencyVersionAwsSes}")
     compile("javax.mail:mail:${dependencyVersionJavaxMail}")
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${dependencyVersionKotlin}")
+    compile("org.slf4j:slf4j-simple:${dependencyVersionSl4jSimple}")
 
     testCompile("junit:junit:${dependencyVersionJunit}")
-    testCompile 'org.assertj:assertj-core:3.7.0'
+    testCompile('org.assertj:assertj-core:3.7.0')
     testCompile("org.mockito:mockito-core:${dependencyVersionMockitoCore}")
 }
