@@ -14,20 +14,17 @@ import java.nio.ByteBuffer
 import java.util.Properties
 import javax.mail.Session
 
-class SESService(val config: SESConfiguration) : EmailService {
+private val LOGGER = LoggerFactory.getLogger(SMTPService::class.java)
 
-    private val LOGGER = LoggerFactory.getLogger(SESService::class.java)
+class SESService(private val config: SESConfiguration) : EmailService {
 
     private val client = AmazonSimpleEmailServiceClientBuilder
             .standard()
             .withCredentials(DefaultAWSCredentialsProviderChain())
             .withRegion(Regions.US_EAST_1).build()
 
-    init {
-        LOGGER.info("Configuration for SES: {}", config)
-    }
-
     override fun send(email: Email): Boolean {
+        LOGGER.info("SES Config: $config")
         try {
             ByteArrayOutputStream().use { outputStream ->
                 val message = buildMessage(
@@ -44,7 +41,7 @@ class SESService(val config: SESConfiguration) : EmailService {
             LOGGER.error("Exception occurred when sending email from SES Service", e)
             return false
         }
-        LOGGER.info("Email sent successfully to {} with subject: {} from SES Server", email.recipient, email.subject)
+        LOGGER.info("Email sent successfully from SES Service with config $config to ${email.recipient} with subject: ${email.subject}")
         return true
     }
 

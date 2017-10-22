@@ -18,7 +18,7 @@ This sdk is published by JitPack, to include:
 
 ```
 
-To run tests you need to have a Gmail SMTP Server account and have those system properties set: 
+To run tests you need to have a SMTP Server account and have those system properties set: 
 
 ```
 -Drecipient.email="{to-be-replaced}"

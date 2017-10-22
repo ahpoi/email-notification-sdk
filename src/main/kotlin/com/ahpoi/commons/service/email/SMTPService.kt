@@ -9,14 +9,13 @@ import javax.mail.PasswordAuthentication
 import javax.mail.Session
 import javax.mail.Transport
 
-class SMTPService(val config: SMTPConfiguration) :  EmailService {
+private val LOGGER = LoggerFactory.getLogger(SMTPService::class.java)
 
-    private val LOGGER = LoggerFactory.getLogger(SMTPService::class.java)
+class SMTPService(val config: SMTPConfiguration) : EmailService {
 
     private val session: Session
 
     init {
-        LOGGER.info("Configuration for SMTP: {}", config)
         val auth = object : Authenticator() {
             override fun getPasswordAuthentication(): PasswordAuthentication {
                 return PasswordAuthentication(config.userName, config.password)
@@ -26,6 +25,7 @@ class SMTPService(val config: SMTPConfiguration) :  EmailService {
     }
 
     override fun send(email: Email): Boolean {
+        LOGGER.info("SMTP Config: $config")
         try {
             Transport.send(buildMessage(
                     session = session,
@@ -36,7 +36,7 @@ class SMTPService(val config: SMTPConfiguration) :  EmailService {
             LOGGER.error("Exception occurred when sending email from SMTP Service", e)
             return false
         }
-        LOGGER.info("Email sent successfully to {} with subject: {} from SMTP Server", email.recipient, email.subject)
+        LOGGER.info("Email sent successfully from SMTP Service to ${email.recipient} with subject: ${email.subject}")
         return true
     }
 
