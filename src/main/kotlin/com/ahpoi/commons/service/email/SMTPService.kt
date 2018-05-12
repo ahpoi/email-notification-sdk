@@ -25,7 +25,6 @@ class SMTPService(val config: SMTPConfiguration) : EmailService {
     }
 
     override fun send(email: Email): Boolean {
-        LOGGER.info("SMTP Config: $config")
         try {
             Transport.send(buildMessage(
                     session = session,
@@ -36,7 +35,7 @@ class SMTPService(val config: SMTPConfiguration) : EmailService {
             LOGGER.error("Exception occurred when sending email from SMTP Service", e)
             return false
         }
-        LOGGER.info("Email sent successfully from SMTP Service to ${email.recipient} with subject: ${email.subject}")
+        LOGGER.info("Email sent successfully from SMTP Service")
         return true
     }
 

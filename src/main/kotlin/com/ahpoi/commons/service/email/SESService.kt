@@ -24,7 +24,6 @@ class SESService(private val config: SESConfiguration) : EmailService {
             .withRegion(Regions.US_EAST_1).build()
 
     override fun send(email: Email): Boolean {
-        LOGGER.info("SES Config: $config")
         try {
             ByteArrayOutputStream().use { outputStream ->
                 val message = buildMessage(
@@ -41,7 +40,7 @@ class SESService(private val config: SESConfiguration) : EmailService {
             LOGGER.error("Exception occurred when sending email from SES Service", e)
             return false
         }
-        LOGGER.info("Email sent successfully from SES Service with config $config to ${email.recipient} with subject: ${email.subject}")
+        LOGGER.info("Email sent successfully from SES Service")
         return true
     }
 
